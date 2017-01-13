@@ -3,6 +3,7 @@ var currentid=0
 timer=window.setInterval(updateUI,1)
 
 var main=function(){
+	retreive()
 	$('textarea').on('input', function(x){
 		window.clearInterval(timer)
 		timer=window.setInterval(savestate,500)
@@ -26,20 +27,28 @@ function savestate(){
 			currentid=past.length+1
 			past[past.length]={id:past.length,cont:$('textarea').val()}
 		}
+
+	store()
 	window.clearInterval(timer)
 	updateUI()
 }
 
 function updateUI(){
-	if (currentid!=0){undostr="<button class='undo'>undo</button>"}
-		else {undostr=""}
+	if (currentid!=0)
+		{
+			undostr="<button class='undo'>undo</button>"
+		}
+		else
+		{
+			undostr=""
+		}
 
 	past.map(function(l){
 		if (currentid!=l.id)
-		undostr+="<a class='pastclick' data-targ="+l.id+">"+l.id+"</a>"
+			undostr+="<a class='pastclick' data-targ="+l.id+">"+l.id+"</a>"
 		else
 		{
-		undostr+="<a> Current </a>"
+			undostr+="<a> Current </a>"
 		}
 	})
 
@@ -66,6 +75,27 @@ function gotostate(id)
 	currentid=id
 
 	updateUI()
+}
+
+
+function store(){
+	if (typeof(Storage) !== "undefined")
+	{
+	    // Code for localStorage/sessionStorage.
+	    localStorage.setItem("States",JSON.stringify(past))
+	    localStorage.setItem("State_pos",currentid)
+	}
+}
+
+function retreive(){
+	if (typeof(Storage) !== "undefined")
+	if (localStorage.States!=undefined)
+	{
+		past=JSON.parse(localStorage.States)
+		currentid=JSON.parse(localStorage.State_pos)
+		gotostate(past.length-1)
+		savestate()
+	}
 }
 
 function detectmob() { 
