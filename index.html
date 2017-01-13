@@ -10,13 +10,9 @@
     <script src="https://fb.me/react-dom-15.0.0.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 	<script type="text/babel">
-	var saves=[]
-
-	var UndoBar=React.createClass({
-		render: function(){
-			return <ul className="undobar"></ul>
-		}
-	})
+	var past=[{cont:"",id:"Start"}]
+	var current=""
+	var future=[]
 
 	var MainBox=React.createClass({
 		setInitialState:function()
@@ -26,22 +22,40 @@
 
 		handleChange:function(e)
 		{
+			clearInterval(this.timer)
 			this.timer=setInterval(this.createSave,200)
 			this.setState({content:e.target.value})
+			current=this.content
 		},
 
 		createSave:function()
 		{
-			window.alert("fake save just completed!")
+			past[past.length]={cont:current, id:past.length}
+			clearInterval(this.timer)
 		},
 
 		render:function()
 		{
-			return <textarea>{this.content}</textarea>
+			return <div>
+				<ul className="undobar">
+						{past.map(function(l)
+							{
+								return <li>{l.id} </li>
+							}
+						)}
+						<li> Current </li>
+						{future.map(function(l)
+							{
+								return <li>{l.id} </li>
+							}
+						)}
+					</ul>
+				<textarea onChange={this.handleChange}>{this.content}</textarea>
+			</div>
 		}
 	})
 
-	ReactDOM.render(<div><UndoBar /><MainBox /></div>,document.getElementById('app'))
+	ReactDOM.render(<div><MainBox /></div>,document.getElementById('app'))
 
 	</script>
 </body>
