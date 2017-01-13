@@ -6,19 +6,33 @@ var main=function(){
 	$('textarea').on('input', function(x){
 		window.clearInterval(timer)
 		timer=window.setInterval(savestate,500)
-
 	})
 }
 
 function savestate(){
-	currentid=past.lenth
-	past[past.length]={id:past.length,cont:$('textarea').val()}
+	if (currentid<past.length)
+		{
+			for (i=currentid;i<past.length;i++)
+			{
+				past.splice(i,1)
+			}
+
+			past[currentid]={id:currentid,cont:$('textarea').val()}
+			currentid=past.length+1
+			
+		}
+	else
+		{
+			currentid=past.length+1
+			past[past.length]={id:past.length,cont:$('textarea').val()}
+		}
 	window.clearInterval(timer)
 	updateUI()
 }
 
 function updateUI(){
-	undostr=""
+	if (currentid!=0){undostr="<button class='undo'>undo</button>"}
+		else {undostr=""}
 
 	past.map(function(l){
 		if (currentid!=l.id)
@@ -29,9 +43,20 @@ function updateUI(){
 		}
 	})
 
+	if (currentid!=past.length){undostr+="<button class='redo'>redo</button>"}
+
 	$('.undobar').html(undostr)
+
 	$('.pastclick').click(function(){
 		gotostate($(this).data('targ'))
+	})
+
+	$('.undo').click(function(){
+		gotostate(currentid-1)
+	})
+
+	$('.redo').click(function(){
+		gotostate(currentid+1)
 	})
 }
 
