@@ -1,0 +1,23 @@
+a{
+	background-color:rgba(125,125,125,.3);
+	margin:2px;
+	padding:5px;
+}
+
+textarea{
+	margin:0px auto;
+	resize:none;
+	width:600px;
+	height:600px;
+	display: block;
+}
+
+#app{
+	width:100%;
+}
+
+.undobar{
+	width:100%;
+	display:flex;
+	justify-content: center;
+}

@@ -3,60 +3,13 @@
 <head>
 	<title>UndoBox</title>
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="jquery-2.1.4.min.js"></script>
 </head>
 <body>
-	<div id="app"></div>
-	<script src="https://fb.me/react-15.0.0.js"></script>
-    <script src="https://fb.me/react-dom-15.0.0.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-	<script type="text/babel">
-	var past=[{cont:"",id:"Start"}]
-	var current=""
-	var future=[]
-
-	var MainBox=React.createClass({
-		setInitialState:function()
-		{
-			return {content:''}
-		},
-
-		handleChange:function(e)
-		{
-			clearInterval(this.timer)
-			this.timer=setInterval(this.createSave,200)
-			this.setState({content:e.target.value})
-			current=this.content
-		},
-
-		createSave:function()
-		{
-			past[past.length]={cont:current, id:past.length}
-			clearInterval(this.timer)
-		},
-
-		render:function()
-		{
-			return <div>
-				<ul className="undobar">
-						{past.map(function(l)
-							{
-								return <li>{l.id} </li>
-							}
-						)}
-						<li> Current </li>
-						{future.map(function(l)
-							{
-								return <li>{l.id} </li>
-							}
-						)}
-					</ul>
-				<textarea onChange={this.handleChange}>{this.content}</textarea>
-			</div>
-		}
-	})
-
-	ReactDOM.render(<div><MainBox /></div>,document.getElementById('app'))
-
-	</script>
+	<div id="app">
+		<div class="undobar"></div>
+		<textarea></textarea>
+	</div>
+<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
