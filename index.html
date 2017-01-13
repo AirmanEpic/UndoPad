@@ -10,13 +10,38 @@
     <script src="https://fb.me/react-dom-15.0.0.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 	<script type="text/babel">
-	var UndoBar=React.createClass({
-		render: function({
+	var saves=[]
 
-		return <ul className="undobar"></ul>
-		})
+	var UndoBar=React.createClass({
+		render: function(){
+			return <ul className="undobar"></ul>
+		}
 	})
 
+	var MainBox=React.createClass({
+		setInitialState:function()
+		{
+			return {content:''}
+		},
+
+		handleChange:function(e)
+		{
+			this.timer=setInterval(this.createSave,200)
+			this.setState({content:e.target.value})
+		},
+
+		createSave:function()
+		{
+			window.alert("fake save just completed!")
+		},
+
+		render:function()
+		{
+			return <textarea>{this.content}</textarea>
+		}
+	})
+
+	ReactDOM.render(<div><UndoBar /><MainBox /></div>,document.getElementById('app'))
 
 	</script>
 </body>
